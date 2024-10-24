@@ -6,8 +6,8 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 /**
- * Automatically adjusts font size of text to fit within a specified width, ensuring
- * optimal readability.
+ * Extends the Android TextView class to dynamically adjust font size based on the
+ * available width.
  */
 public class FontFitTextView extends TextView {
 
@@ -22,8 +22,8 @@ public class FontFitTextView extends TextView {
     }
 
     /**
-     * Creates a new instance of the `Paint` class and assigns it to the `mTestPaint`
-     * variable, then copies the properties from the current `Paint` instance to `mTestPaint`.
+     * Creates a new instance of the `Paint` class, assigns it to the `mTestPaint` variable,
+     * and copies the current paint settings to the new instance.
      */
     private void initialise() {
         mTestPaint = new Paint();
@@ -31,13 +31,14 @@ public class FontFitTextView extends TextView {
     }
 
     /**
-     * Determines the optimal text size to fit a specified text within a given width,
-     * taking into account the padding of the text container. It iteratively adjusts the
-     * text size until it finds a suitable fit.
+     * Adjusts the font size of the text to fit within a specified width, taking into
+     * account the padding on both sides. It iteratively refines the font size using a
+     * binary search algorithm until the measured text width exceeds the target width.
      *
-     * @param text text that is being measured and resized to fit the specified width.
+     * @param text text to be measured and formatted within a specified width.
      *
-     * @param textWidth available width for the text after removing the left and right padding.
+     * @param textWidth available width for the text after accounting for the left and
+     * right padding.
      */
     private void refitText(String text, int textWidth)
     {
@@ -62,14 +63,15 @@ public class FontFitTextView extends TextView {
     }
 
     /**
-     * Resizes the view based on the parent's available width, adjusts its text to fit,
-     * and then sets the view's measured dimensions accordingly.
+     * Retrieves the parent's width, measures the view's height, refits the text to the
+     * parent's width, and sets the measured dimension to the parent's width and the
+     * view's height.
      *
-     * @param widthMeasureSpec measurements that the parent layout is willing to provide
-     * to the view, including any constraints or requirements.
+     * @param widthMeasureSpec measure specification for the view's width, which is used
+     * to determine the view's dimensions.
      *
-     * @param heightMeasureSpec measurements that the parent layout imposes on the height
-     * of the view.
+     * @param heightMeasureSpec measurements that the parent layout is willing to provide
+     * for the height of the view.
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -82,18 +84,16 @@ public class FontFitTextView extends TextView {
     }
 
     /**
-     * Is overridden to handle text changes in a text field.
-     * It calls the `refitText` function to adjust the text layout based on the updated
-     * text and the current width of the text field.
+     * Is overridden to handle text changes in a text field. It calls the `refitText`
+     * function to adjust the text based on the current width of the field.
      *
-     * @param text current text sequence in the editable field.
+     * @param text changed text in the view.
      *
-     * @param start starting offset in the CharSequence where the change occurred.
+     * @param start starting offset of the text change within the CharSequence.
      *
-     * @param before number of characters in the text before the changes made in the
-     * current edit operation.
+     * @param before length of the text before the change occurred.
      *
-     * @param after number of characters that were added to the text.
+     * @param after number of characters added to the text at the specified position.
      */
     @Override
     protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
@@ -102,16 +102,18 @@ public class FontFitTextView extends TextView {
 
 
     /**
-     * Is overridden to respond to changes in the view's width,
-     * adjusting the text layout if the width changes.
+     * Adapts the text layout when the view's width changes. It checks if the new width
+     * differs from the old width, and if so, it calls the `refitText` method to update
+     * the text based on the new width.
      *
-     * @param w new width of the component.
+     * @param w new width of the view that has changed.
      *
      * @param h new height of the view.
      *
-     * @param oldw previous width of the view before the size change.
+     * @param oldw previous width of the view, used for comparison with the current width
+     * `w`.
      *
-     * @param oldh height of the view before its size changed.
+     * @param oldh previous height of the view before the size change occurred.
      */
     @Override
     protected void onSizeChanged (int w, int h, int oldw, int oldh) {
